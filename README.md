@@ -64,4 +64,4 @@ Edit settings such as the location of your lammps executable, fortran compiler, 
 
 ## Examples and resulting files
 
-Go to the [Examples](examples) section for examples. 
+Go to the [examples](examples) section for examples. 
