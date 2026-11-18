@@ -70,3 +70,9 @@ Edit settings such as the location of your lammps executable, fortran compiler, 
 ## Examples and resulting files
 
 Go to the [examples](examples) section for examples. 
+
+## Further reading
+
+1. [DOI 10.1126/sciadv.adq6652](https://doi.org/10.1126/sciadv.adq6652)
+2. [DOI 10.7554/eLife.97604](10.7554/eLife.97604)
+3. [DOI 10.1016/j.bpj.2026.05.020](10.1016/j.bpj.2026.05.020)
