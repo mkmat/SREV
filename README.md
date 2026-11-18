@@ -1,6 +1,6 @@
 <pre>
     __   __   __     
-   |__  |__| |__ \  /   (c) 2026 martin kroger
+   |__  |__| |__ \  /   (c) 2026 martin kröger
     __| |  \ |__  \/             marcelo carignano
 </pre>
 
