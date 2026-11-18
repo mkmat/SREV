@@ -23,3 +23,9 @@ the SREV code produced the following files:
 
 Some of them are too large to be uploaded here. We include some of them. 
 
+Upon calling 
+
+    perl SREV -dir="examples/cube-N534976-001" -np=8
+
+the SREV produced a similar set of files, also included here. Note that the two SREV-parameters.txt files in the two subdirectories are identical! The difference in the geometry is taken into account by the SREV argument -sphere. 
+
