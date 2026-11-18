@@ -10,7 +10,8 @@ self-returning excluded volume path
 
 ## create SREV from the command line 
 
-        perl SREV -N=<beads> -alpha=<value> -bmax=<value> -phi=<value> [-seed=<integer>] [-np=<cores>] [-sphere] [-silent] [-compile]
+        perl SREV -N=<beads> -alpha=<value> -bmax=<value> -phi=<value> 
+                  [-seed=<integer>] [-np=<cores>] [-sphere] [-silent] [-compile]
 
 Options: 
 
