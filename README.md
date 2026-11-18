@@ -60,6 +60,8 @@ Examples:
 
 ## User-specific settings 
 
-Edit settings such as the location of your lammps executable, fortran compiler, or mpirun (including user-specific mpirun options), if they are not automatically found by SREV, in the SREV file (SETTINGS section). 
+Edit settings such as the location of your lammps executable, fortran compiler, or mpirun (including user-specific mpirun options), if they are not automatically located by SREV, in the SREV script (SETTINGS section). 
 
-## Resulting files
+## Examples and resulting files
+
+Go to the [Examples](examples) section for examples. 
