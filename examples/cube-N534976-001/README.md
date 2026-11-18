@@ -1,39 +1,57 @@
-# Spherical N=534976 run 001
+# PBC N=534976 run 001
 
-Full-length spherical-confinement test using the current source and the same
-scientific parameters and fixed seed as the validated PBC calculation. 
+Full-length reproducible PBC test corresponding to the remembered configuration
+name `SRRW-PBC-L=130-N=534976-phi=0.12-alpha=1.1-bmax=20-r=0.49-ru=10`.
 
-Parameters:
+Parameters read by the Fortran program:
 
-- `N = 534976` bonds (`534977` beads)
+- `N = 534976`
 - `alpha = 1.1`
 - `bmax = 20.0`
 - `phi = 0.12`
-- `node_radius = 0.49`
 - `fixed_seed = 12345`
-- two MPI processes for LAMMPS
+- `bond_and_angle_forces = F`
+- `first_config = T`
+- `node_radius = 0.49` (defined in the source)
+- MPI processes: 2
 
-For this run only, the build copy selects
-`L = L_for_sphere(); call SRRW_in_sphere` in place of the default PBC call.
-The tracked source remains configured for PBC.
+The source derives `L = 130` from `N`, `phi`, and `node_radius`.
 
-Results:
+The historical `ru=10` label is not represented by a parameter in this source
+and is therefore not applied in this run.
 
-- spherical diameter `L = 161.291` (`L/2 = 80.6455`)
-- wall time: `72.35 s`
-- final minimum bead-bead distance: `0.991342`
-- mean SRRW-to-SREV displacement: `1.030`
-- measured SREV mean bond length: `2.375`
+## Result
 
-The maximum radius after final recentering is `103.8904` for the SRRW and
-`103.9889` for the SREV. This is expected from the existing evolving-center-of-
-mass definition of spherical confinement: it is the same caveat before and
-after the reject-and-retry change.
+Completed successfully on 2026-11-17 using two MPI processes.
 
-OVITO files:
+- Derived box length: `L = 130.000`
+- SREV coordinates: 534,977
+- Final reported minimum separation: 0.996387
+- Mean SRRW-to-SREV displacement: 0.876
+- Measured SREV mean bond length: 2.334
+- Contact pairs: 19,169,190
+- Wall time: 38.62 seconds
 
-- `SREV-sphere-nonperiodic.dump` is the SREV dump with nonperiodic boundary
-  flags for correct spherical coordination analysis.
-- `SREV_sphere_CN_cutoff1.15.ovito` is the saved OVITO view, colored by
-  coordination number with cutoff `1.15`, range `0` to `13`, periodic wrapping
-  disabled, and the simulation-cell display hidden.
+Periodic minimum-image validation found four bead pairs with center-to-center
+distance strictly below 1.0. They are listed in `pairs-distance-lt-1.txt`.
+
+The OVITO session `SREV_CN_cutoff1.15.ovito` displays the configuration wrapped
+into the periodic box and colored by coordination number using cutoff 1.15. The
+blue-white-red color scale spans coordination numbers 0 through 13.
+
+## Validation after disabling TAD code
+
+The updated single-type program was run again on 2026-11-17 with the same
+parameters, fixed seed, and two MPI processes. It completed successfully in
+34.39 seconds. `SREV-unfolded.xyz` and `_bead_bead_contacts.txt` have exactly
+the same SHA-256 checksums as the original validated run, confirming that the
+coordinates and contact results are unchanged. `SREV.data` intentionally now
+contains one generic atom type.
+
+## Validation after removing beta
+
+The independent `beta` parameter was removed because the validated model uses
+the same exponent for both distributions. Repeating this full run with
+`alpha=1.1` completed successfully in 33.83 seconds. The coordinate and contact
+list SHA-256 checksums are unchanged.
+
