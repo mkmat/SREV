@@ -44,8 +44,8 @@ Options:
 
 Examples: 
 
-        perl SREV -dir=runs/pbc-smoke-001 
-        perl SREV -dir=runs/pbc-smoke-001 -np=2 -sphere
+        perl SREV -dir=sphere-N534976-001 
+        perl SREV -dir=sphere-N534976-001 -np=2 -sphere
 
 ## pre-requisites
 
