@@ -1,7 +1,7 @@
 <pre>
     __   __   __     
-   |__  |__| |__ \  /   (c) 2026 martin kröger
-    __| |  \ |__  \/             marcelo carignano
+   |__  |__| |__ \  /   (c) 2026 martin kröger - ETH Zurich, Switzerland
+    __| |  \ |__  \/             marcelo carignano - Northwestern University, Evanston, United States
 </pre>
 
 # SREV
