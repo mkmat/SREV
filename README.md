@@ -39,5 +39,5 @@ Options: 
 
 Examples: 
 
-perl SREV -N=5000 -alpha=1.1 -bmax=20.0 -phi=0.12 
-perl SREV -N=5000 -alpha=1.1 -bmax=20.0 -phi=0.12 -seed=12345 -np=10 -sphere
+        perl SREV -N=5000 -alpha=1.1 -bmax=20.0 -phi=0.12 
+        perl SREV -N=5000 -alpha=1.1 -bmax=20.0 -phi=0.12 -seed=12345 -np=10 -sphere
