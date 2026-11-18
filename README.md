@@ -57,21 +57,21 @@ Examples:
 5. A Unix/Linux-like shell environment providing standard commands such as `rm` and
   `sleep`.
 
-## Installation
+## installation
 
 As soon as you have the pre-requisites, just call SREV, there is no further installation required. 
 
 You can copy SREV to another directory, but if so, add the full path of the executable to the SETTINGS section of the SREV script. 
 
-## User-specific settings 
+## user-specific settings 
 
 Edit settings such as the location of your lammps executable, fortran compiler, or mpirun (including user-specific mpirun options), if they are not automatically located by SREV, in the SREV script (SETTINGS section). 
 
-## Examples and resulting files
+## examples and resulting files
 
 Go to the [examples](examples) section for examples. 
 
-## Further reading
+## further reading
 
 1. [DOI 10.1126/sciadv.adq6652](https://doi.org/10.1126/sciadv.adq6652)
 2. [DOI 10.7554/eLife.97604](10.7554/eLife.97604)
