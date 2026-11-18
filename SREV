@@ -1,0 +1,190 @@
+#! /usr/bin/perl
+
+# 18 Nov 2026 martin kroger and marcelo carignano
+
+$COPYRIGHT =<<EOF;
+(c) 2026 SREV is copyrighted by the copyright holders Martin Kröger and Marcelo Carignano.
+It may be freely used for educational and research purposes by non-profit institutions and US government agencies only.
+All other organizations may use SREV for evaluation purposes only, and any further uses will require prior written approval.
+This software may not be sold or redistributed without prior written approval.
+Copies of the software may be made by a user provided that copies are not sold or distributed,
+and provided that copies are used under the same terms and conditions as agreed to in this paragraph.
+As research software, this code is provided on an "as is'' basis without warranty of any kind, either expressed or implied.
+The downloading, or executing any part of this software constitutes an implicit agreement to these terms.
+These terms and conditions are subject to change at any time without prior notice.
+EOF
+
+$HEADER =<<EOF;
+    __   __   __
+   |__  |__| |__ \\  /   (c) 2026 martin kroger
+    __| |  \\ |__  \\/             marcelo carignano
+EOF
+
+sub SETTINGS {
+#===============================================================
+#============= EDIT USER SPECIFIC SETINGS ======================
+#===============================================================
+
+#---- source code
+ $code = "SREV-19nov26.f90"; 
+
+#---- compiler 
+ $compiler = "gfortran -Ofast -ffree-line-length-none"; 
+#$compiler = "gfortran -O -ffree-line-length-none"; # less aggressive optimization
+#$compiler = "ifort -O3"; 
+
+#---- if not found by SREV, specify location of your LAMMPS lmp_mpi command 
+ $lmp = "";          # default (SREV attempts to locate lmp_mpi)
+#$lmp = "lmp_mpi";  
+#$lmp = "/usr/local/lammps/build/lmp_mpi"; 
+#$lmp = "/Users/cari/Lammps-Install/lammps-29Aug2024/build/lmp_mpi"; 
+
+#---- if not found by SREV, specify location of your mpirun command 
+ $mpirun = "";       # default (SREV attempts to locate mpirun)
+#$mpirun = "/usr/lib64/openmpi/bin/mpirun"; 
+
+#---- if necessary, specify mpi options (apart from -np). Use $np as a placeholder for the number of cores
+ $mpi_options = "";  # default (no options)
+#$mpi_options = "--host localhost:'$np' --map-by slot --bind-to none"; 
+
+#---- if SREV is copied away, specify full path of the executable SREV.ex 
+ $exe = "./SREV.ex"; # default (SREV.ex residing in current path)
+#$exe = "/Users/xxx/yyy/SREV.ex";  
+
+#===============================================================
+#===============================================================
+#===============================================================
+}; 
+
+sub INFO {
+    $INFO  = "Path information (can be adjusted inside the SREV file):\n\n";
+    $INFO .= "code = $code\n";
+    $INFO .=  "compiler = $compiler\n";
+    $INFO .=  "exe = $exe\n";
+    $INFO .=  "lmp = $lmp\n";
+    $INFO .=  "mpirun = $mpirun $mpi_options\n";
+};
+
+sub USAGE { print<<EOF;
+
+$HEADER
+
+perl $0 -dir=<directory-name> [-np=<cores>] [-sphere] [-silent] [-compile]
+
+Options:
+
+-dir    : directory name containing SREV-parameters.txt (results are written into this directory) 
+-np     : number of cores used by mpirun (default: 1)
+-sphere : grows the SREV inside a sphere (default: inside a cubic box with periodic boundary conditions)
+-silent : do not generate log.lammps and further runtime information to stdout (default: off)
+-compile: recompile SREV. Only required if user-specific settings have been modified inside SREV
+
+Examples: 
+
+perl $0 -dir=runs/pbc-smoke-001 
+perl $0 -dir=runs/pbc-smoke-001 -np=2 -sphere
+
+OR 
+
+perl $0 -N=<beads> -alpha=<value> -bmax=<value> -phi=<value> [-seed=<integer>] [-np=<cores>] [-sphere] [-silent] [-compile]
+
+Options: 
+
+-N      : number of beads (results are written into the calling directory)
+-alpha  : SRRW parameter alpha
+-bmax   : maximum SRRW bond length
+-phi    : target volume fraction
+-seed   : fixed seed value (default: random seed)
+
+Examples: 
+
+perl $0 -N=5000 -alpha=1.1 -bmax=20.0 -phi=0.12 
+perl $0 -N=5000 -alpha=1.1 -bmax=20.0 -phi=0.12 -seed=12345 -np=10 -sphere
+
+$INFO
+
+$COPYRIGHT
+EOF
+if ($EXIT) { print "*** Note the above error messages ***\n"; }; 
+exit
+};
+
+sub COMPILE {
+    if ((-s "$exe")&&(!$recompile)) { return; }; 
+    print "compiling $code ..\n"; 
+    print `$compiler $code -o $exe`; 
+};
+
+sub CREATE_LAUNCHER {
+    if (-s "$directory/SREV.ex") { } else { `cp $exe $directory/SREV.ex`; }; 
+    open(L,">$directory/.launcher"); print L "$mpirun -np $np $mpi_options $lmp -nocite -echo none -in _lammps.in -log $verbose -screen none"; close(I);
+    if ($silent) { open(S,">$directory/.silent"); print S 1; close(S); }; 
+    if ($sphere) { open(S,">$directory/.sphere"); print S 1; close(S); } else { `rm -f $directory/.sphere`; }; 
+};
+
+sub CREATE_PARFILE {
+    if ($dir) { return; }; 
+    open(P,">$directory/SREV-parameters.txt"); 
+    if (!$N)     { print "ERROR: missing -N value\n"; $EXIT=1; USAGE; }; 
+    if (!$alpha) { print "ERROR: missing -alpha value\n"; $EXIT=1; USAGE; };
+    if (!$bmax)  { print "ERROR: missing -bmax value\n"; $EXIT=1; USAGE; };
+    if (!$phi)   { print "ERROR: missing -phi value\n"; $EXIT=1; USAGE; };
+    $firstconfig = ".true."; 
+    if ($silent) { 
+        print P "$N $alpha $bmax $phi $seed .true. $firstconfig $sphere"; 
+    } else {
+        print P "$N $alpha $bmax $phi $seed .false. $firstconfig $sphere";
+    }; 
+    close(P);
+};
+
+$pwd       = `pwd`; chomp $pwd; 
+$directory = $pwd;
+$verbose   = "log.lammps"; 
+$np = 1; 
+$seed = 0; 
+$sphere = 0; 
+foreach $arg (@ARGV) { $ind=index($arg,"="); if ($ind eq -1) { $field=$arg; $value=""; } else { $field=substr($arg,0,$ind); $value=substr($arg,$ind+1); };
+    if      ($field eq "-dir")   { $dir=1; $directory=$value; 
+    } elsif ($field eq "-np")    { $np=$value+0;
+    } elsif ($field eq "-recompile") { $recompile=1; 
+    } elsif ($field eq "-silent") { $verbose = "none"; $silent=1; 
+    } elsif ($field eq "-N")      { $N=$value+0;
+    } elsif ($field eq "-alpha")  { $alpha=$value+0;
+    } elsif ($field eq "-bmax")   { $bmax=$value+0;
+    } elsif ($field eq "-phi")    { $phi=$value+0;
+    } elsif ($field eq "-seed")   { $seed=$value+0; 
+    } elsif ($field eq "-sphere") { $sphere=1; 
+    } else { print "ERROR: unknown argument $arg\n"; $EXIT=1; }
+};
+SETTINGS; 
+`chmod u+x ./SREV`; # make this SREV script executable so that it must not be called via perl ./SREV
+
+if (!$mpirun)  { $mpirun = `which mpirun`; chomp $mpirun; if (-s "$mpirun") { } else { print "ERROR: mpirun could not be found. Edit the SETTINGS section of $0.\n"; $EXIT=1; }; }; 
+if (!$lmp)     { $lmp = `which lmp_mpi`; chomp $lmp; if (-s "$lmp") { } else { print "ERROR: lmp_mpi could not be found. Edit the SETTINGS section of $0.\n"; $EXIT=1; }; }; 
+COMPILE; 
+if (-s "$exe") { } else { print "ERROR: missing \$exe = $exe\n"; $EXIT=1; };
+if (-s "$lmp") { } else { print "ERROR: missing \$lmp = $lmp\n"; $EXIT=1; };
+if (-d "$directory") { } else { print "ERROR: $directory is not a directory\n"; $EXIT=1; };
+
+INFO; 
+
+if ($EXIT) { USAGE; }; 
+if ($#ARGV eq -1) { USAGE; }; 
+
+$parfile = "$directory/SREV-parameters.txt";
+if ($dir) { if (-s "$parfile") { } else { print "missing $parfile\n"; $EXIT=1; USAGE; }; };
+
+if (!$silent) { print "running in directory $directory ..\n"; }; 
+
+CREATE_PARFILE; 
+CREATE_LAUNCHER; 
+
+print `cd $directory; $exe`;
+
+if (-s "$directory/SREV-unfolded.xyz") { 
+    if ($dir) { `rm -f $directory/SREV.ex`; }; 
+    `rm -f $directory/.launcher $directory/.silent`; 
+} else { 
+    print "ERROR: SREV crashed. Switch to $directory and execute $exe from there.\n"; 
+}; 
