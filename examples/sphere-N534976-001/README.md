@@ -1,7 +1,7 @@
 # Spherical N=534976 run 001
 
 Full-length spherical-confinement test using the current source and the same
-scientific parameters and fixed seed as the validated PBC calculation.
+scientific parameters and fixed seed as the validated PBC calculation. 
 
 Parameters:
 
