@@ -17,7 +17,7 @@ Options:
         -dir    : directory name containing SREV-parameters.txt (results are written into this directory) 
         -np     : number of cores used by mpirun (default: 1)
         -sphere : grows the SREV inside a sphere (default: inside a cubic box with periodic boundary conditions)
-        -silent : do not generate log.lammps and further runtime information to stdout (default: off)
+        -silent : do not generate log.lammps and further runtime information to stdout (default: verbose)
         -compile: recompile SREV. Only required if user-specific settings have been modified inside SREV
 
 Examples: 
