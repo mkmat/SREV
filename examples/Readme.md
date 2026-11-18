@@ -5,7 +5,7 @@ Each directory in this folder originally contained only two files:
 
 Upon calling 
 
-    perl SREV -dir="sphere-N534976-001" -sphere -np=8
+    perl SREV -dir="examples/sphere-N534976-001" -sphere -np=8
 
 the SREV code produced the following files: 
 
