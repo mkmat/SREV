@@ -8,6 +8,7 @@
 ! The downloading, or executing any part of this software constitutes an implicit agreement to these terms. 
 ! These terms and conditions are subject to change at any time without prior notice.
 
+! use the SREV script to compile and run this code.
 
 ! compile: gfortran -Ofast -ffree-line-length-none SREV-19nov26.f90 -o SREV.ex
 ! or     : gfortran -O -ffree-line-length-none code.f90 -o code.ex
