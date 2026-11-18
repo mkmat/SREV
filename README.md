@@ -51,7 +51,7 @@ Examples:
 
 1. A recent GNU Fortran compiler (`gfortran`).
 2. An MPI installation providing `mpirun`.
-3. An MPI-enabled LAMMPS executable. The validated installation used LAMMPS
+3. An MPI-enabled [LAMMPS](https://www.lammps.org/) executable. The validated installation used LAMMPS
   29Aug2024.
 4. Perl, which is called by the temporary LAMMPS input generated at run time.
 5. A Unix/Linux-like shell environment providing standard commands such as `rm` and
