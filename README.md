@@ -44,8 +44,8 @@ Options:
 
 Examples: 
 
-        perl SREV -dir=sphere-N534976-001 
-        perl SREV -dir=sphere-N534976-001 -np=2 -sphere
+        perl SREV -dir=examples/sphere-N534976-001 
+        perl SREV -dir=examples/sphere-N534976-001 -np=2 -sphere
 
 ## pre-requisites
 
