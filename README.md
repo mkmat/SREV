@@ -57,6 +57,11 @@ Examples:
 5. A Unix/Linux-like shell environment providing standard commands such as `rm` and
   `sleep`.
 
+## Installation
+
+As soon as you have the pre-requisites, just call SREV, there is no further installation required. 
+
+You can copy SREV to another directory, but if so, add the full path of the executable to the SETTINGS section of the SREV script. 
 
 ## User-specific settings 
 
