@@ -8,7 +8,7 @@
 
 self-returning excluded volume path
 
-
+## start from a parameter file 
 
         perl SREV -dir=<directory-name> [-np=<cores>] [-sphere] [-silent] [-compile]
 
@@ -25,7 +25,7 @@ Examples:
         perl SREV -dir=runs/pbc-smoke-001 
         perl SREV -dir=runs/pbc-smoke-001 -np=2 -sphere
 
-OR 
+## specify parameters on the command line 
 
         perl SREV -N=<beads> -alpha=<value> -bmax=<value> -phi=<value> [-seed=<integer>] [-np=<cores>] [-sphere] [-silent] [-compile]
 
@@ -36,6 +36,10 @@ Options: 
         -bmax   : maximum SRRW bond length
         -phi    : target volume fraction
         -seed   : fixed seed value (default: random seed)
+        -np     : number of cores used by mpirun (default: 1)
+        -sphere : grows the SREV inside a sphere (default: inside a cubic box with periodic boundary conditions)
+        -silent : do not generate log.lammps and further runtime information to stdout (default: verbose)
+        -compile: recompile SREV. Only required if user-specific settings have been modified inside SREV
 
 Examples: 
 
