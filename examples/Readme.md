@@ -1,4 +1,7 @@
-Each directory in this folder originally contained a single file: SREV-parameters.txt
+Each directory in this folder originally contained only two files: 
+
+1. SREV-parameters.txt (required by SREV)
+2. README.md (for your information)
 
 Upon calling 
 
@@ -10,7 +13,6 @@ the SREV code produced the following files:
     _bead_bead_contacts.txt
     _Cp_id.txt
     log.lammps
-    README.md
     _SREV_average_linker_bp.txt
     _SREV-bondlength.txt
     SREV.data
